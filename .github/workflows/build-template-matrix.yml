@@ -33,7 +33,7 @@ jobs:
       - name: Install TeX Live packages
         run: |
           sudo apt-get update
-          sudo apt-get install -y latexmk texlive-xetex texlive-lang-chinese texlive-latex-extra texlive-fonts-recommended
+          sudo apt-get install -y latexmk texlive-xetex texlive-lang-chinese texlive-latex-extra texlive-science texlive-fonts-recommended
       - name: Compile ${{ matrix.directory }}
         working-directory: ${{ matrix.directory }}
         run: latexmk -xelatex -interaction=nonstopmode -halt-on-error main.tex
