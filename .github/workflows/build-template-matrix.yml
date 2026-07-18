@@ -1,0 +1,45 @@
+name: Build template matrix
+
+on:
+  push:
+    paths:
+      - 'templates/**'
+      - '.github/workflows/build-template-matrix.yml'
+  pull_request:
+    paths:
+      - 'templates/**'
+      - '.github/workflows/build-template-matrix.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - directory: templates/engineering-report
+            artifact: engineering-report-pdf
+          - directory: templates/competition-paper
+            artifact: competition-paper-pdf
+          - directory: templates/undergraduate-thesis-generic
+            artifact: undergraduate-thesis-pdf
+          - directory: templates/defense-slides
+            artifact: defense-slides-pdf
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install TeX Live packages
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y latexmk texlive-xetex texlive-lang-chinese texlive-latex-extra texlive-science texlive-fonts-recommended
+      - name: Compile ${{ matrix.directory }}
+        working-directory: ${{ matrix.directory }}
+        run: latexmk -xelatex -interaction=nonstopmode -halt-on-error main.tex
+      - name: Upload PDF
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact }}
+          path: ${{ matrix.directory }}/main.pdf
+          if-no-files-found: error

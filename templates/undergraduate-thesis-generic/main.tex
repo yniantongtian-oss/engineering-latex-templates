@@ -1,0 +1,191 @@
+% !TEX program = xelatex
+\documentclass[UTF8,a4paper,12pt,openany]{ctexbook}
+\usepackage[margin=2.7cm,headheight=15pt]{geometry}
+\usepackage{amsmath,amssymb,booktabs,graphicx,siunitx,tikz,listings,xcolor}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{caption}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{本科毕业设计（论文）通用模板}
+\fancyhead[R]{\thepage}
+\setlength{\parindent}{2em}
+\setlength{\parskip}{0.25em}
+\sisetup{per-mode=symbol}
+\lstset{basicstyle=\ttfamily\small,frame=single,breaklines=true,columns=fullflexible}
+
+\newcommand{\ThesisTitle}{低压能量回馈变流器控制系统研究}
+\newcommand{\ThesisTitleEn}{Research on a Low-Voltage Energy-Feedback Converter Control System}
+\newcommand{\AuthorName}{张三}
+\newcommand{\StudentID}{20260000000}
+\newcommand{\SchoolName}{示例大学}
+\newcommand{\CollegeName}{示例学院}
+\newcommand{\MajorName}{电子信息类专业}
+\newcommand{\SupervisorName}{李老师}
+\newcommand{\CompletionDate}{2026年7月}
+
+\begin{document}
+
+\begin{titlepage}
+\centering
+{\zihao{2}\bfseries \SchoolName 本科毕业设计（论文）\par}
+\vspace{2.4cm}
+{\zihao{1}\bfseries \ThesisTitle\par}
+\vspace{1.2cm}
+{\zihao{3}\ThesisTitleEn\par}
+\vfill
+\begin{tabular}{rl}
+学院：& \CollegeName\\
+专业：& \MajorName\\
+学生姓名：& \AuthorName\\
+学号：& \StudentID\\
+指导教师：& \SupervisorName\\
+完成日期：& \CompletionDate
+\end{tabular}
+\vfill
+\end{titlepage}
+
+\frontmatter
+
+\chapter*{摘\quad 要}
+\addcontentsline{toc}{chapter}{摘要}
+本文以低压、隔离实验平台为对象，研究能量回馈变流器的嵌入式控制、采样标定、故障保护和通信监控方法。全文给出需求分析、系统架构、理论建模、硬件设计、软件实现、实验方案和结果讨论的完整写作骨架。示例内容仅用于排版演示，正式论文必须替换为真实设计与实测数据。
+
+\noindent\textbf{关键词：} 能量回馈；变流器；STM32；闭环控制；故障保护
+
+\chapter*{Abstract}
+\addcontentsline{toc}{chapter}{Abstract}
+This thesis template demonstrates a complete structure for an undergraduate engineering thesis, including requirements, modelling, hardware, firmware, communication, experiments and reproducibility. All numerical results in this example are placeholders and must be replaced by verified measurements.
+
+\noindent\textbf{Keywords:} energy feedback; converter; STM32; closed-loop control; protection
+
+\tableofcontents
+
+\mainmatter
+
+\chapter{绪论}
+\section{研究背景与意义}
+说明课题来源、工程背景、应用价值和研究边界。避免只罗列宏观政策，应建立与具体技术问题的直接关系。
+
+\section{国内外研究现状}
+按功率拓扑、控制策略、保护机制和工程实现分类综述，并指出现有方案在成本、效率、动态性能或可复现性方面的不足。
+
+\section{主要研究内容}
+\begin{enumerate}[label=\arabic*)]
+  \item 建立系统需求和安全边界；
+  \item 完成功率级、采样和控制系统设计；
+  \item 实现状态机、闭环控制、通信和故障管理；
+  \item 建立可复现的低压实验与数据分析流程。
+\end{enumerate}
+
+\chapter{系统需求与总体方案}
+\section{功能与性能指标}
+将所有要求转化为可测量指标，并定义额定工况、极限工况和故障工况。
+
+\section{总体架构}
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[>=latex,every node/.style={draw,rounded corners,minimum width=2.8cm,minimum height=0.9cm,align=center}]
+\node (input) at (0,0) {低压直流输入};
+\node (power) at (4,0) {双向功率变换级};
+\node (load) at (8,0) {负载/回馈母线};
+\node (sample) at (4,-2) {采样与调理};
+\node (mcu) at (8,-2) {STM32 控制器};
+\node (pc) at (8,-4) {RS485 上位机};
+\draw[->] (input) -- (power);
+\draw[<->] (power) -- (load);
+\draw[->] (power) -- (sample);
+\draw[->] (sample) -- (mcu);
+\draw[->] (mcu) -- (power);
+\draw[<->] (mcu) -- (pc);
+\end{tikzpicture}
+\caption{系统总体架构}
+\end{figure}
+
+\chapter{理论建模与控制策略}
+\section{平均模型}
+以电感电流为状态变量，可建立简化模型
+\begin{equation}
+L\frac{\mathrm{d}i_L}{\mathrm{d}t}=dV_{\mathrm{in}}-(1-d)V_{\mathrm{bus}}-Ri_L.
+\end{equation}
+实际模型应根据所选拓扑重新推导，并列出假设条件。
+
+\section{数字控制器}
+离散 PI 控制器可写为
+\begin{align}
+e[k]&=i^*[k]-i[k],\\
+u[k]&=\operatorname{sat}\left(K_pe[k]+I[k]\right),\\
+I[k+1]&=I[k]+K_iT_se[k].
+\end{align}
+应补充参考斜率限制、输出饱和、抗积分饱和和参数稳定性分析。
+
+\chapter{硬件系统设计}
+\section{功率器件与磁性元件}
+给出额定值、峰值应力、损耗估算、温升和降额依据。所有器件选型应能追溯到数据手册和 BOM。
+
+\section{采样与保护}
+说明电流、电压、温度采样的量程、分辨率、带宽、误差和标定方法。硬件急停、比较器过流和栅极关断必须独立于软件。
+
+\chapter{嵌入式软件与通信}
+\section{软件架构}
+建议采用初始化、待机、运行、故障四状态模型，并把快速控制、慢速管理和通信任务分离。
+
+\section{通信协议}
+明确 Modbus RTU 地址、功能码、寄存器类型、缩放、有符号数、字节序、超时和版本兼容策略。
+
+\begin{lstlisting}[language=C,caption={安全控制循环伪代码}]
+read_adc_dma();
+if (hardware_fault || invalid_sample) {
+    pwm_off();
+    latch_fault();
+} else {
+    update_filtered_measurements();
+    run_current_controller();
+    apply_bounded_pwm();
+}
+\end{lstlisting}
+
+\chapter{实验设计与结果分析}
+\section{实验平台与仪器}
+列出电源、电子负载、示波器、万用表、探头、固件版本、环境温度和接线方式。
+
+\section{测试结果}
+\begin{table}[htbp]
+\centering
+\caption{测试结果记录示例}
+\begin{tabular}{lllll}
+\toprule
+用例 & 工况 & 目标 & 实测 & 结论\\
+\midrule
+TC-01 & 待机 & PWM=0 & 待填写 & 待验证\\
+TC-02 & 过流 & 立即关断 & 待填写 & 待验证\\
+TC-03 & 通信超时 & 自动停机 & 待填写 & 待验证\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{误差与不确定度}
+区分系统误差、随机误差、采样误差和仪器不确定度，解释误差来源以及是否影响结论。
+
+\chapter{结论与展望}
+概括已完成工作、量化结果、创新点和限制。展望应与当前不足直接对应，避免空泛描述。
+
+\appendix
+\chapter{关键参数表}
+集中列出控制周期、PWM 频率、传感器标定系数、保护阈值和软件版本。
+
+\chapter{复现实验清单}
+列出源码版本、编译工具、BOM、原理图、测试数据、脚本和报告生成步骤。
+
+\backmatter
+\begin{thebibliography}{9}
+\bibitem{ref1} 示例作者. 电力电子变换与控制[M]. 示例出版社, 2026.
+\bibitem{ref2} STMicroelectronics. STM32F103 Reference Manual[Z].
+\end{thebibliography}
+
+\chapter*{致谢}
+感谢指导教师、团队成员和实验室提供的帮助。公开版本请避免写入个人隐私或未经同意的联系方式。
+
+\end{document}
