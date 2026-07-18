@@ -2,50 +2,44 @@
 
 **中国本科生工程类 LaTeX 模板库 | LaTeX Templates for Engineering Students**
 
-为中国本科生提供高质量、规范的 LaTeX 模板，包括毕业设计、课程报告、竞赛论文、答辩材料等。
+[![Build LaTeX templates](https://github.com/yniantongtian-oss/engineering-latex-templates/actions/workflows/latex.yml/badge.svg)](https://github.com/yniantongtian-oss/engineering-latex-templates/actions/workflows/latex.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-A collection of professional LaTeX templates tailored for Chinese undergraduate engineering students, including theses, reports, competition papers, and defense materials.
+仓库现在包含一个真实可编译、可在 Overleaf 和本地 TeX Live 使用的通用工程报告模板。
 
----
+## 已发布模板
 
-## 包含模板 | Included Templates
+### [通用工程课程报告](templates/engineering-report/)
 
-- 本科毕业设计（论文）模板
-- 课程报告 / 实验报告模板
-- 学科竞赛论文模板
-- 答辩 PPT 模板
-- 开题报告模板
+包含：
 
----
+- 中文与英文混排
+- 封面元数据集中配置
+- 摘要、目录、章节和附录
+- 公式、SI 单位、TikZ 流程图和三线表
+- C 代码清单
+- 参考文献
+- `Makefile` 和 GitHub Actions 自动编译
 
-## 使用说明 | Usage
+## 快速开始
 
-1. 下载对应模板文件夹
-2. 使用 TeX Live、MiKTeX 或 Overleaf 编译
-3. 根据学校或比赛要求修改格式
-4. 直接替换内容即可使用
+```bash
+git clone https://github.com/yniantongtian-oss/engineering-latex-templates.git
+cd engineering-latex-templates/templates/engineering-report
+make
+```
 
----
+Overleaf 用户可上传 `engineering-report` 整个目录，将编译器设为 XeLaTeX，然后编译 `main.tex`。
 
-## 模板特点 | Features
+## 质量标准
 
-- 符合中国本科生常见格式要求
-- 支持中英文混排
-- 结构清晰、注释详细
-- 易于二次修改
+正式模板必须：
 
----
+1. 在标准 TeX Live 环境成功编译；
+2. 使用虚构姓名、学号、学校和示例数据；
+3. 提供依赖、构建方法、适用范围和已知限制；
+4. 不冒充学校官方模板；
+5. 确认字体、校徽、图标和第三方素材允许再分发；
+6. 通过 Pull Request 自动编译检查。
 
-## 贡献 | Contributing
-
-欢迎补充更多高质量模板或改进现有模板。
-
----
-
-## 许可证 | License
-
-本项目采用 [MIT License](LICENSE)。
-
----
-
-**希望这些模板能帮助更多工程类学生规范、高效地完成写作任务。**
+更多模板和使用文档见 [`templates/`](templates/) 与 [`docs/`](docs/)。本项目采用 [MIT License](LICENSE)。

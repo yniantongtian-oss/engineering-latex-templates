@@ -1,0 +1,123 @@
+\documentclass[UTF8,12pt,fontset=fandol]{ctexart}
+
+\input{config/metadata}
+\input{config/style}
+
+\begin{document}
+
+\begin{titlepage}
+  \centering
+  \vspace*{1.5cm}
+  {\zihao{2}\bfseries \reporttitle\par}
+  \vspace{0.5cm}
+  {\Large \reportsubtitle\par}
+  \vspace{2.5cm}
+  \renewcommand{\arraystretch}{1.2}
+  \begin{tabular}{rl}
+    \metadatarow{课程名称}{\coursename}
+    \metadatarow{学院}{\departmentname}
+    \metadatarow{姓名}{\studentname}
+    \metadatarow{学号}{\studentid}
+    \metadatarow{班级}{\classname}
+    \metadatarow{指导教师}{\instructorname}
+    \metadatarow{提交日期}{\submissiondate}
+  \end{tabular}
+  \vfill
+  {\small 本模板为非官方通用模板，请按学校或比赛要求调整。\par}
+\end{titlepage}
+
+\pagenumbering{Roman}
+\section*{摘要}
+本文展示一个可直接编译的通用工程课程报告结构，覆盖中文排版、公式、表格、流程图、代码和参考文献。使用者应把示例内容替换为自己的实验数据，并在提交前检查格式要求、来源和个人信息。
+
+\noindent\textbf{关键词：}工程报告；\LaTeX；可复现性；实验记录
+
+\section*{Abstract}
+This document demonstrates a compilable engineering-report structure with equations, tables, diagrams, source code, and references. Replace all fictional metadata and sample values before submission.
+
+\noindent\textbf{Keywords:} engineering report; \LaTeX; reproducibility; test record
+
+\tableofcontents
+\clearpage
+\pagenumbering{arabic}
+
+\section{项目背景与目标}
+说明问题来源、约束条件、目标指标和验收方式。可量化目标应给出单位、容差和测试条件，而不是只写“性能良好”。
+
+\section{方案设计}
+\subsection{系统结构}
+图~\ref{fig:flow} 使用 TikZ 直接绘制，因此模板不依赖外部示例图片。
+
+\begin{figure}[htbp]
+  \centering
+  \begin{tikzpicture}[node distance=2.2cm,>=stealth,thick]
+    \tikzstyle{block}=[draw,rounded corners,minimum width=2.8cm,minimum height=1cm,align=center]
+    \node[block] (input) {输入与采样};
+    \node[block,right of=input,xshift=1.2cm] (control) {算法与控制};
+    \node[block,right of=control,xshift=1.2cm] (output) {执行与保护};
+    \draw[->] (input) -- (control);
+    \draw[->] (control) -- (output);
+    \draw[->,bend left=35] (output.north) to node[above]{反馈} (input.north);
+  \end{tikzpicture}
+  \caption{通用闭环系统结构示例}
+  \label{fig:flow}
+\end{figure}
+
+\subsection{理论模型}
+一阶对象可写为
+\begin{equation}
+  G(s)=\frac{K}{\tau s+1},
+  \label{eq:first-order}
+\end{equation}
+其中 $K$ 为稳态增益，$\tau$ 为时间常数。示例测量值可表示为 \SI{12.0}{\volt}，但实际报告必须标注仪器和测量不确定度。
+
+\section{实现方法}
+代码清单~\ref{lst:clamp} 展示一个具有明确边界的限幅函数。
+
+\begin{lstlisting}[language=C,caption={限幅函数示例},label={lst:clamp}]
+float clampf(float value, float minimum, float maximum) {
+    if (value < minimum) return minimum;
+    if (value > maximum) return maximum;
+    return value;
+}
+\end{lstlisting}
+
+\section{实验与结果}
+表~\ref{tab:results} 中的数据仅用于展示排版，不能作为真实实验结论。
+
+\begin{table}[htbp]
+  \centering
+  \caption{虚构测试数据示例}
+  \label{tab:results}
+  \begin{tabular}{cccc}
+    \toprule
+    工况 & 输入/V & 输出/V & 效率/\% \\
+    \midrule
+    A & 12.0 & 11.2 & 88.4 \\
+    B & 15.0 & 14.1 & 90.1 \\
+    C & 18.0 & 17.0 & 91.0 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\section{讨论与局限}
+说明误差来源、失败条件、尚未验证的假设和可能的改进。工程报告应保留失败数据与版本信息，以便他人复现。
+
+\section{结论}
+按目标逐项给出是否达成及证据位置，避免引入正文未验证的新结论。
+
+\begin{thebibliography}{9}
+\bibitem{lamport1994latex}
+Leslie Lamport. \textit{LaTeX: A Document Preparation System}. Addison-Wesley, 2nd edition, 1994.
+\end{thebibliography}
+
+\appendix
+\section{提交前检查}
+\begin{itemize}
+  \item 已替换姓名、学号、课程和教师等虚构信息；
+  \item 图片、代码、数据和引用具有明确来源；
+  \item 表格单位、有效数字和测试条件一致；
+  \item PDF 中书签、目录、公式和参考文献均可正常显示。
+\end{itemize}
+
+\end{document}
