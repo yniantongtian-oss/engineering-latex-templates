@@ -20,7 +20,7 @@ jobs:
         working-directory: templates/engineering-report
         run: make
       - name: Upload PDF
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: engineering-report-pdf
           path: templates/engineering-report/main.pdf
