@@ -11,7 +11,7 @@ jobs:
   engineering-report:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Install TeX Live packages
         run: |
           sudo apt-get update
@@ -20,7 +20,7 @@ jobs:
         working-directory: templates/engineering-report
         run: make
       - name: Upload PDF
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: engineering-report-pdf
           path: templates/engineering-report/main.pdf
