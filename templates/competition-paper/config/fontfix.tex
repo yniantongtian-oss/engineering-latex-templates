@@ -1,0 +1,6 @@
+% Fandol has no OpenType CJK script tag. xeCJK requests Script=CJK, fontspec
+% warns, and then falls back to the default script. CustomDefault is
+% fontspec's quiet DFLT/latn fallback and selects that same result.
+\AddToHook{package/xeCJK/after}{%
+  \defaultCJKfontfeatures{Script=CustomDefault}%
+}

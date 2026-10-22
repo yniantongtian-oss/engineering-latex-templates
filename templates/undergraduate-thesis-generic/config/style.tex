@@ -1,0 +1,56 @@
+\usepackage[a4paper,margin=2.7cm,headheight=16pt]{geometry}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{amsmath,amssymb}
+\usepackage{siunitx}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{tikz}
+\usetikzlibrary{positioning,arrows.meta}
+\usepackage{enumitem}
+\usepackage{caption}
+\usepackage{csquotes}
+\usepackage[backend=biber,style=gb7714-2015]{biblatex} % chktex 8
+\addbibresource{references.bib}
+\usepackage{hyperref}
+\usepackage{bookmark}
+
+\setmonofont{texgyrecursor-regular.otf}[
+  BoldFont = texgyrecursor-bold.otf,
+  ItalicFont = texgyrecursor-italic.otf,
+  BoldItalicFont = texgyrecursor-bolditalic.otf
+]
+
+\hypersetup{
+  % Front matter and the main matter both contain page 1. Unique anchors
+  % avoid a duplicate @page destination in xdvipdfmx.
+  hypertexnames = false,
+  hidelinks,
+  pdftitle = {\ThesisTitle},
+  pdfauthor = {\AuthorName}
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{本科毕业设计通用模板}
+\fancyhead[R]{\thepage}
+\setlength{\parindent}{2em}
+\setlength{\parskip}{0.25em}
+\sisetup{
+  mode = match,
+  per-mode = symbol
+}
+\lstset{
+  basicstyle = \ttfamily\small,
+  keywordstyle = \ttfamily\color{blue!45!black},
+  commentstyle = \ttfamily\itshape\color{black!55},
+  frame = single,
+  breaklines = true,
+  columns = fullflexible,
+  keepspaces = true,
+  showstringspaces = false,
+  captionpos = b
+}
+\renewcommand{\lstlistingname}{代码清单}
+\setlist[enumerate]{label=\arabic*.}

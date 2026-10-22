@@ -1,0 +1,116 @@
+{
+  "version": 1,
+  "engine": "xelatex",
+  "build": [
+    "latexmk",
+    "-xelatex",
+    "-interaction=nonstopmode",
+    "-halt-on-error",
+    "-file-line-error"
+  ],
+  "templates": [
+    {
+      "id": "engineering-report",
+      "title": "Engineering course report",
+      "title_zh": "工程课程报告",
+      "directory": "templates/engineering-report",
+      "entrypoint": "main.tex",
+      "document_class": "ctexart",
+      "summary": "Title page, bilingual abstract, formulas, SI quantities, a TikZ loop, tables, C code, and GB/T 7714 references.",
+      "features": ["chinese", "tikz", "siunitx", "listings", "biblatex"],
+      "metadata": [
+        "reporttitle",
+        "reportsubtitle",
+        "coursename",
+        "departmentname",
+        "studentname",
+        "studentid",
+        "classname",
+        "instructorname",
+        "submissiondate"
+      ]
+    },
+    {
+      "id": "lab-report",
+      "title": "Laboratory experiment report",
+      "title_zh": "实验报告",
+      "directory": "templates/lab-report",
+      "entrypoint": "main.tex",
+      "document_class": "ctexart",
+      "summary": "Short experiment write-up with apparatus, an uncertainty statement, a data table, and a pgfplots curve.",
+      "features": ["chinese", "siunitx", "pgfplots", "biblatex"],
+      "metadata": [
+        "reporttitle",
+        "reportsubtitle",
+        "coursename",
+        "studentname",
+        "studentid",
+        "instructorname",
+        "experimentdate"
+      ]
+    },
+    {
+      "id": "competition-paper",
+      "title": "Competition technical paper",
+      "title_zh": "学科竞赛论文",
+      "directory": "templates/competition-paper",
+      "entrypoint": "main.tex",
+      "document_class": "ctexart",
+      "summary": "Requirements, architecture, discrete control, safety rules, test tables, firmware sketch, and references.",
+      "features": ["chinese", "tikz", "siunitx", "listings", "biblatex"],
+      "metadata": ["ProjectTitle", "TeamName", "University", "Competition"]
+    },
+    {
+      "id": "thesis-proposal",
+      "title": "Undergraduate thesis proposal",
+      "title_zh": "毕业设计开题报告",
+      "directory": "templates/thesis-proposal",
+      "entrypoint": "main.tex",
+      "document_class": "ctexart",
+      "summary": "Opening report with literature, objectives, a technical route, a schedule, and expected results. Not an official university form.",
+      "features": ["chinese", "tikz", "booktabs", "biblatex"],
+      "metadata": [
+        "ProjectTitle",
+        "StudentName",
+        "StudentID",
+        "SchoolName",
+        "CollegeName",
+        "MajorName",
+        "SupervisorName",
+        "ProposalDate"
+      ]
+    },
+    {
+      "id": "undergraduate-thesis-generic",
+      "title": "Generic undergraduate thesis",
+      "title_zh": "本科毕业设计通用骨架",
+      "directory": "templates/undergraduate-thesis-generic",
+      "entrypoint": "main.tex",
+      "document_class": "ctexbook",
+      "summary": "Bilingual abstracts, modeling, hardware, firmware, experiments, uncertainty, appendices, and references. Not an official university thesis.",
+      "features": ["chinese", "tikz", "siunitx", "listings", "biblatex"],
+      "metadata": [
+        "ThesisTitle",
+        "ThesisTitleEn",
+        "AuthorName",
+        "StudentID",
+        "SchoolName",
+        "CollegeName",
+        "MajorName",
+        "SupervisorName",
+        "CompletionDate"
+      ]
+    },
+    {
+      "id": "defense-slides",
+      "title": "Engineering defense slides",
+      "title_zh": "工程项目答辩",
+      "directory": "templates/defense-slides",
+      "entrypoint": "main.tex",
+      "document_class": "ctexbeamer",
+      "summary": "16:9 deck for objectives, architecture, control and safety, tests, contributions, and next steps.",
+      "features": ["chinese", "beamer", "tikz", "siunitx"],
+      "metadata": ["TalkTitle", "TalkSubtitle", "AuthorName", "InstituteName"]
+    }
+  ]
+}

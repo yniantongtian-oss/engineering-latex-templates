@@ -15,10 +15,12 @@ jobs:
       - name: Install TeX Live packages
         run: |
           sudo apt-get update
-          sudo apt-get install -y latexmk texlive-xetex texlive-lang-chinese texlive-latex-extra texlive-science
+          sudo apt-get install -y latexmk texlive-xetex texlive-lang-chinese texlive-latex-extra texlive-science texlive-fonts-recommended texlive-pictures texlive-bibtex-extra biber
       - name: Compile template
         working-directory: templates/engineering-report
         run: make
+      - name: Reject LaTeX warnings
+        run: python3 scripts/check_latex_log.py templates/engineering-report/main.log
       - name: Upload PDF
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:

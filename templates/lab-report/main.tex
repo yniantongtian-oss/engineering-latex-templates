@@ -1,0 +1,123 @@
+\input{config/fontfix.tex}
+\documentclass[12pt,fontset=fandol]{ctexart}
+
+\input{config/metadata}
+\input{config/style}
+
+\begin{document}
+
+\begin{titlepage}
+  \centering
+  \vspace*{1.6cm}
+  {\zihao{2}\bfseries \reporttitle\par}
+  \vspace{0.45cm}
+  {\Large \reportsubtitle\par}
+  \vspace{2.4cm}
+  \renewcommand{\arraystretch}{1.15}
+  \begin{tabular}{@{}rl@{}}
+    \metadatarow{课程名称}{\coursename}
+    \metadatarow{姓名}{\studentname}
+    \metadatarow{学号}{\studentid}
+    \metadatarow{指导教师}{\instructorname}
+    \metadatarow{实验日期}{\experimentdate}
+  \end{tabular}
+  \vfill
+  {\small 本模板为非官方实验报告示例。表中测量点和曲线偏移都是排版用的虚构数据。\par}
+\end{titlepage}
+
+\section*{实验目的}
+观察一阶阻容电路的阶跃响应，练习时间常数的计算、有效数字和不确定度表述\cite{nilsson2015electric,bipm2019si}。
+
+\section{原理}
+图~\ref{fig:rc} 中的电容电压在零状态阶跃输入下满足
+\begin{equation}
+  v_{C}(t)=V_{s}\left(1-\mathrm{e}^{-t/\tau}\right),
+  \qquad \tau=RC.
+  \label{eq:step}
+\end{equation}
+示例参数取 $R=\qty{10.0}{\kilo\ohm}$、$C=\qty{10.0}{\micro\farad}$，因此 $\tau=\qty{0.100}{\second}$。阶跃幅值 $V_{s}=\qty{5.00}{\volt}$。
+
+\begin{figure}[htbp]
+  \centering
+  \begin{circuitikz}[european, >=Stealth]
+    \draw (0,0) to[V=$V_{s}$] (0,2.6)
+          to[R=$R$] (3.4,2.6)
+          to[C=$C$] (3.4,0)
+          to[short] (0,0);
+  \end{circuitikz}
+  \caption{一阶阻容实验电路}\label{fig:rc}
+\end{figure}
+
+\section{仪器与器件}
+\begin{table}[htbp]
+  \centering
+  \caption{示例仪器清单}\label{tab:apparatus}
+  \begin{tabular}{lll}
+    \toprule
+    名称 & 示例型号 & 本次用途 \\
+    \midrule
+    直流电源 & DEMO-PS & 阶跃输入 \\
+    数字示波器 & DEMO-SCOPE & 记录 $v_{C}(t)$ \\
+    电阻 & \qty{10.0}{\kilo\ohm} & 时间常数 \\
+    电容 & \qty{10.0}{\micro\farad} & 时间常数 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\section{数据与曲线}
+表~\ref{tab:data} 和图~\ref{fig:curve} 只演示排版。示意测量相对式~\eqref{eq:step} 有意偏离，不能当作真实实验结论。
+
+\begin{table}[htbp]
+  \centering
+  \caption{虚构采样点}\label{tab:data}
+  \begin{tabular}{
+      S[table-format=1.2]
+      S[table-format=1.2]
+      S[table-format=1.2]
+    }
+    \toprule
+    {时间/\unit{\second}} & {模型/\unit{\volt}} & {示意测量/\unit{\volt}} \\
+    \midrule
+    0.05 & 1.97 & 1.90 \\
+    0.10 & 3.16 & 3.05 \\
+    0.20 & 4.32 & 4.20 \\
+    0.40 & 4.91 & 4.85 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\begin{figure}[htbp]
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[
+        width=0.82\textwidth,
+        height=6.4cm,
+        xlabel={$t/\mathrm{s}$},
+        ylabel={$v_{C}/\mathrm{V}$},
+        xmin=0, xmax=0.5,
+        ymin=0, ymax=5.4,
+        legend pos=south east,
+        grid=both,
+        tick label style={font=\small},
+        label style={font=\small}
+      ]
+      \addplot[blue, thick, domain=0:0.5, samples=80] {5*(1-exp(-x/0.1))};
+      \addlegendentry{式~\eqref{eq:step}}
+      \addplot[only marks, mark=*, mark size=1.7pt] coordinates {
+        (0.05,1.90) (0.10,3.05) (0.20,4.20) (0.40,4.85)
+      };
+      \addlegendentry{示意测量}
+    \end{axis}
+  \end{tikzpicture}
+  \caption{阶跃响应的示意曲线}\label{fig:curve}
+\end{figure}
+
+\section{不确定度}
+示波器电压读数的示意不确定度取 \qty{0.05}{\volt}，覆盖仪器分辨率和读数散布。正式报告应给出评定方法、包含因子和单位\cite{bipm2019si}。本示例没有做重复测量，因此不报告实验标准偏差。
+
+\section{结论}
+在所给示例参数下，模型时间常数为 \qty{0.100}{\second}。提交前应替换为实测电阻、电容、原始波形和不确定度，并删除本段中的虚构采样点。
+
+\printbibliography[heading=bibintoc]
+
+\end{document}

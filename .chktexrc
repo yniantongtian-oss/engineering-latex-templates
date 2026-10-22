@@ -1,0 +1,34 @@
+# Project chktex rules.
+# Loaded after the distribution chktexrc. List entries omit '=' so they
+# extend the defaults instead of replacing them.
+#
+# Lint with the Debian/Ubuntu chktex package so /etc/chktexrc is present:
+#   chktex -q -H1 -l .chktexrc FILE
+
+Silent
+{
+    \zihao
+    \titlepage
+    \mainmatter
+    \backmatter
+    \printbibliography
+    \addbibresource
+    \usetheme
+    \usecolortheme
+    \setbeamertemplate
+    \pgfplotsset
+    \sisetup
+    \lstset
+    \tikzset
+    \hypersetup
+    \draw
+    \path
+    \node
+    \coordinate
+    \fill
+    \addplot
+    \addlegendentry
+}
+
+# TikZ path syntax uses "--" between coordinates.
+WordDash { 2 3 }

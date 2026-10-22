@@ -1,4 +1,5 @@
-\documentclass[UTF8,12pt,fontset=fandol]{ctexart}
+\input{config/fontfix.tex}
+\documentclass[12pt,fontset=fandol]{ctexart}
 
 \input{config/metadata}
 \input{config/style}
@@ -12,8 +13,8 @@
   \vspace{0.5cm}
   {\Large \reportsubtitle\par}
   \vspace{2.5cm}
-  \renewcommand{\arraystretch}{1.2}
-  \begin{tabular}{rl}
+  \renewcommand{\arraystretch}{1.15}
+  \begin{tabular}{@{}rl@{}}
     \metadatarow{课程名称}{\coursename}
     \metadatarow{学院}{\departmentname}
     \metadatarow{姓名}{\studentname}
@@ -23,7 +24,7 @@
     \metadatarow{提交日期}{\submissiondate}
   \end{tabular}
   \vfill
-  {\small 本模板为非官方通用模板，请按学校或比赛要求调整。\par}
+  {\small 本模板为非官方通用模板，请按学校或课程要求调整。\par}
 \end{titlepage}
 
 \pagenumbering{Roman}
@@ -33,7 +34,7 @@
 \noindent\textbf{关键词：}工程报告；\LaTeX；可复现性；实验记录
 
 \section*{Abstract}
-This document demonstrates a compilable engineering-report structure with equations, tables, diagrams, source code, and references. Replace all fictional metadata and sample values before submission.
+This document demonstrates a compilable engineering report structure with equations, tables, diagrams, source code, and references. Replace all fictional metadata and sample values before submission.
 
 \noindent\textbf{Keywords:} engineering report; \LaTeX; reproducibility; test record
 
@@ -42,7 +43,7 @@ This document demonstrates a compilable engineering-report structure with equati
 \pagenumbering{arabic}
 
 \section{项目背景与目标}
-说明问题来源、约束条件、目标指标和验收方式。可量化目标应给出单位、容差和测试条件，而不是只写“性能良好”。
+说明问题来源、约束条件、目标指标和验收方式。可量化目标应给出单位、容差和测试条件。源文件本身应能重复编译\cite{lamport1994latex}。
 
 \section{方案设计}
 \subsection{系统结构}
@@ -50,17 +51,22 @@ This document demonstrates a compilable engineering-report structure with equati
 
 \begin{figure}[htbp]
   \centering
-  \begin{tikzpicture}[node distance=2.2cm,>=stealth,thick]
-    \tikzstyle{block}=[draw,rounded corners,minimum width=2.8cm,minimum height=1cm,align=center]
+  \begin{tikzpicture}[
+      >=Stealth,
+      node distance=1.4cm,
+      block/.style={
+        draw, rounded corners, thick,
+        minimum width=2.8cm, minimum height=1cm, align=center
+      }
+    ]
     \node[block] (input) {输入与采样};
-    \node[block,right of=input,xshift=1.2cm] (control) {算法与控制};
-    \node[block,right of=control,xshift=1.2cm] (output) {执行与保护};
+    \node[block, right=1.5cm of input] (control) {算法与控制};
+    \node[block, right=1.5cm of control] (output) {执行与保护};
     \draw[->] (input) -- (control);
     \draw[->] (control) -- (output);
-    \draw[->,bend left=35] (output.north) to node[above]{反馈} (input.north);
+    \draw[->, bend left=30] (output.north) to node[above] {反馈} (input.north);
   \end{tikzpicture}
-  \caption{通用闭环系统结构示例}
-  \label{fig:flow}
+  \caption{通用闭环系统结构示例}\label{fig:flow}
 \end{figure}
 
 \subsection{理论模型}
@@ -69,7 +75,7 @@ This document demonstrates a compilable engineering-report structure with equati
   G(s)=\frac{K}{\tau s+1},
   \label{eq:first-order}
 \end{equation}
-其中 $K$ 为稳态增益，$\tau$ 为时间常数。示例测量值可表示为 \SI{12.0}{\volt}，但实际报告必须标注仪器和测量不确定度。
+其中 $K$ 为稳态增益，$\tau$ 为时间常数。示例测量值可表示为 \qty{12.0}{\volt}。正式报告必须标注仪器，并按国际单位制书写单位\cite{bipm2019si}。
 
 \section{实现方法}
 代码清单~\ref{lst:clamp} 展示一个具有明确边界的限幅函数。
@@ -87,11 +93,10 @@ float clampf(float value, float minimum, float maximum) {
 
 \begin{table}[htbp]
   \centering
-  \caption{虚构测试数据示例}
-  \label{tab:results}
+  \caption{虚构测试数据示例}\label{tab:results}
   \begin{tabular}{cccc}
     \toprule
-    工况 & 输入/V & 输出/V & 效率/\% \\
+    工况 & 输入/\unit{\volt} & 输出/\unit{\volt} & 效率/\unit{\percent} \\
     \midrule
     A & 12.0 & 11.2 & 88.4 \\
     B & 15.0 & 14.1 & 90.1 \\
@@ -106,10 +111,7 @@ float clampf(float value, float minimum, float maximum) {
 \section{结论}
 按目标逐项给出是否达成及证据位置，避免引入正文未验证的新结论。
 
-\begin{thebibliography}{9}
-\bibitem{lamport1994latex}
-Leslie Lamport. \textit{LaTeX: A Document Preparation System}. Addison-Wesley, 2nd edition, 1994.
-\end{thebibliography}
+\printbibliography[heading=bibintoc]
 
 \appendix
 \section{提交前检查}
