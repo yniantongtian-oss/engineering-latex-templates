@@ -3,21 +3,22 @@
 ## 编译
 
 ```bash
-latexmk -xelatex -interaction=nonstopmode -halt-on-error main.tex
+cd templates/competition-paper
+make
 ```
 
-也可以把整个目录上传到 Overleaf，并将编译器设为 XeLaTeX。
+需要 TeX Live 2023 或更新版本中的 XeLaTeX、latexmk 和 biber。也可以把整个目录上传到 Overleaf，并将编译器设为 XeLaTeX。
+
+```bash
+python scripts/new_document.py --template competition-paper --name contest-paper
+```
 
 ## 修改入口
 
-在 `main.tex` 顶部修改：
-
-- `\ProjectTitle`
-- `\TeamName`
-- `\University`
-- `\Competition`
-
-然后按题目要求替换摘要、指标、系统方案、算法、测试结果和参考文献。
+- `config/metadata.tex`：`\ProjectTitle`、`\TeamName`、`\University`、`\Competition`
+- `config/style.tex`：页边距、页眉和文献样式
+- `main.tex`：摘要、指标、系统方案、算法、测试结果
+- `references.bib`：GB/T 7714—2015 文献库
 
 ## 使用原则
 

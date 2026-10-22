@@ -4,39 +4,47 @@ on:
   push:
     paths:
       - 'templates/**'
+      - 'scripts/check_latex_log.py'
       - '.github/workflows/build-template-matrix.yml'
   pull_request:
     paths:
       - 'templates/**'
+      - 'scripts/check_latex_log.py'
       - '.github/workflows/build-template-matrix.yml'
 
 permissions:
   contents: read
 
 jobs:
+  catalog:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.matrix.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - id: matrix
+        name: Read template catalog
+        run: |
+          python3 -c 'import json, pathlib; data=json.loads(pathlib.Path("templates/catalog.json").read_text(encoding="utf-8")); include=[{"directory": item["directory"], "artifact": item["id"] + "-pdf"} for item in data["templates"]]; pathlib.Path("matrix.json").write_text(json.dumps({"include": include}), encoding="utf-8")'
+          echo "matrix=$(jq -c . matrix.json)" >> "$GITHUB_OUTPUT"
+
   build:
+    needs: catalog
     strategy:
       fail-fast: false
-      matrix:
-        include:
-          - directory: templates/engineering-report
-            artifact: engineering-report-pdf
-          - directory: templates/competition-paper
-            artifact: competition-paper-pdf
-          - directory: templates/undergraduate-thesis-generic
-            artifact: undergraduate-thesis-pdf
-          - directory: templates/defense-slides
-            artifact: defense-slides-pdf
+      matrix: ${{ fromJson(needs.catalog.outputs.matrix) }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
       - name: Install TeX Live packages
         run: |
           sudo apt-get update
-          sudo apt-get install -y latexmk texlive-xetex texlive-lang-chinese texlive-latex-extra texlive-science texlive-fonts-recommended
+          sudo apt-get install -y latexmk texlive-xetex texlive-lang-chinese texlive-latex-extra texlive-science texlive-fonts-recommended texlive-pictures texlive-bibtex-extra biber
       - name: Compile ${{ matrix.directory }}
         working-directory: ${{ matrix.directory }}
-        run: latexmk -xelatex -interaction=nonstopmode -halt-on-error main.tex
+        run: make
+      - name: Reject LaTeX warnings
+        run: python3 scripts/check_latex_log.py "${{ matrix.directory }}/main.log"
       - name: Upload PDF
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:

@@ -1,18 +1,23 @@
 # 本科毕业设计（论文）通用骨架
 
-这是一个可编译的工程类本科论文通用结构，不代表任何学校的官方格式。
+这是一个可编译的工程类本科论文结构，不代表任何学校的官方格式。
 
 ## 编译
 
 ```bash
-latexmk -xelatex -interaction=nonstopmode -halt-on-error main.tex
+cd templates/undergraduate-thesis-generic
+make
 ```
 
-Overleaf 中上传整个目录并选择 XeLaTeX。
+Overleaf 中上传整个目录并选择 XeLaTeX。本地需要 TeX Live 2023 或更新版本、latexmk 和 biber。
+
+```bash
+python scripts/new_document.py --template undergraduate-thesis-generic --name thesis
+```
 
 ## 修改入口
 
-在 `main.tex` 顶部统一修改论文题目、中英文题目、姓名、学号、学校、学院、专业、指导教师和日期。
+`config/metadata.tex` 集中修改中英文题目、姓名、学号、学校、学院、专业、指导教师和日期。正文在 `main.tex`，文献在 `references.bib`。
 
 ## 已覆盖结构
 
@@ -28,7 +33,7 @@ Overleaf 中上传整个目录并选择 XeLaTeX。
 
 ## 正式使用前必须调整
 
-- 以学校最新官方 Word/PDF 规范为准修改页边距、字体、字号、页眉、封面和参考文献。
+- 以学校最新规范为准修改页边距、字体、字号、页眉、封面和参考文献。
 - 某些学校要求盲审版，必须移除姓名、学号、导师和致谢。
-- 示例数值和引用均为占位内容，不能直接提交。
-- 校徽、字体和学校模板源文件可能有独立授权要求，不应默认放入公开仓库。
+- 示例数值和引用占位不能直接提交。
+- 校徽、字体和学校模板源文件可能有独立授权，不应默认放入公开仓库。

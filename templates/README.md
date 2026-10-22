@@ -1,40 +1,34 @@
 # 模板目录 | Templates
 
+目录清单以 [`catalog.json`](catalog.json) 为准。每个模板自包含，可以单独上传到 Overleaf，编译器选择 XeLaTeX。
+
 ## 已发布
 
-### [`engineering-report/`](engineering-report/)
+| 目录 | 文档类 | 脚手架 id | 内容 |
+| --- | --- | --- | --- |
+| [`engineering-report/`](engineering-report/) | `ctexart` | `engineering-report` | 课程报告：封面、摘要、公式、单位、TikZ、三线表、代码、GB/T 7714 |
+| [`lab-report/`](lab-report/) | `ctexart` | `lab-report` | 实验报告：电路、数据表、不确定度和 pgfplots 曲线 |
+| [`competition-paper/`](competition-paper/) | `ctexart` | `competition-paper` | 学科竞赛论文：指标、架构、算法、保护和测试 |
+| [`thesis-proposal/`](thesis-proposal/) | `ctexart` | `thesis-proposal` | 开题报告骨架：文献、目标、路线和进度 |
+| [`undergraduate-thesis-generic/`](undergraduate-thesis-generic/) | `ctexbook` | `undergraduate-thesis-generic` | 本科论文通用骨架 |
+| [`defense-slides/`](defense-slides/) | `ctexbeamer` | `defense-slides` | 16:9 答辩幻灯片 |
 
-通用工程课程报告模板，支持中文、英文、公式、单位、TikZ 图、三线表、代码和参考文献。
-
-### [`competition-paper/`](competition-paper/)
-
-学科竞赛技术论文模板，覆盖指标分解、总体方案、控制算法、安全策略、测试结果和参考文献。
-
-### [`undergraduate-thesis-generic/`](undergraduate-thesis-generic/)
-
-工程类本科毕业设计通用骨架，包含中英文摘要、章节结构、公式图表、代码、实验、不确定度、附录和致谢。
-
-### [`defense-slides/`](defense-slides/)
-
-16:9 Beamer 答辩模板，包含问题、指标、架构、算法、安全、实验、结果和总结页面。
+开题报告、论文、竞赛论文和答辩幻灯片都不是官方格式。示例姓名和测量值是虚构的。
 
 ## 编译
 
-所有模板优先使用 XeLaTeX：
-
 ```bash
-cd templates/<template-name>
+cd templates/<template-id>
 make
 ```
 
-也可以上传整个模板目录到 Overleaf，并把编译器设置为 XeLaTeX。
+从仓库根目录复制一份新文档：
 
-GitHub Actions 会以矩阵方式编译全部已发布模板，并分别上传 PDF 构建附件。
+```bash
+python scripts/new_document.py --list
+python scripts/new_document.py --template lab-report --name my-lab
+```
 
-## 计划增加
+## 新增模板
 
-- 开题报告模板
-- 实验报告精简模板
-- 适配具体学校公开规范的扩展包
-
-每个新模板都应包含独立 README、虚构示例信息、明确许可证、编译命令和自动构建检查。具体学校格式必须注明依据与版本，不能冒充官方模板。
+新模板需要独立 README、虚构示例、Makefile、`main.tex`，并写入 `catalog.json`。具体学校格式必须注明依据与版本，不能写成官方模板。

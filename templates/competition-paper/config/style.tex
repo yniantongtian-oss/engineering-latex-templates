@@ -1,0 +1,60 @@
+\usepackage[a4paper,margin=2.5cm,headheight=16pt]{geometry}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{amsmath,amssymb}
+\usepackage{siunitx}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{tikz}
+\usetikzlibrary{positioning,arrows.meta}
+\usepackage{enumitem}
+\usepackage{csquotes}
+\usepackage[backend=biber,style=gb7714-2015]{biblatex} % chktex 8
+\addbibresource{references.bib}
+\usepackage{hyperref}
+\usepackage{bookmark}
+
+\setmonofont{texgyrecursor-regular.otf}[
+  BoldFont = texgyrecursor-bold.otf,
+  ItalicFont = texgyrecursor-italic.otf,
+  BoldItalicFont = texgyrecursor-bolditalic.otf
+]
+
+\hypersetup{
+  % Page numbers restart after the title page. Unique anchors avoid a
+  % duplicate @page destination in xdvipdfmx.
+  hypertexnames = false,
+  colorlinks = true,
+  linkcolor = blue!45!black,
+  citecolor = green!35!black,
+  urlcolor = blue!55!black,
+  pdftitle = {\ProjectTitle},
+  pdfauthor = {\TeamName}
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{学科竞赛论文示例}
+\fancyhead[R]{\thepage}
+\fancyfoot[C]{}
+\setlength{\parindent}{2em}
+\setlength{\parskip}{0.3em}
+\sisetup{
+  mode = match,
+  per-mode = symbol
+}
+\lstset{
+  basicstyle = \ttfamily\small,
+  keywordstyle = \ttfamily\color{blue!45!black},
+  commentstyle = \ttfamily\itshape\color{black!55},
+  stringstyle = \ttfamily\color{teal!60!black},
+  frame = single,
+  breaklines = true,
+  columns = fullflexible,
+  keepspaces = true,
+  showstringspaces = false,
+  captionpos = b
+}
+\renewcommand{\lstlistingname}{代码清单}
+\setlist[enumerate]{label=\arabic*.}

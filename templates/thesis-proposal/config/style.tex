@@ -1,0 +1,42 @@
+\usepackage[a4paper,margin=2.6cm,headheight=16pt]{geometry}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{amsmath,amssymb}
+\usepackage{siunitx}
+\usepackage{tikz}
+\usetikzlibrary{positioning,arrows.meta}
+\usepackage{enumitem}
+\usepackage{csquotes}
+\usepackage[backend=biber,style=gb7714-2015]{biblatex} % chktex 8
+\addbibresource{references.bib}
+\usepackage{hyperref}
+\usepackage{bookmark}
+
+\hypersetup{
+  % Page numbers restart after the title page. Unique anchors avoid a
+  % duplicate @page destination in xdvipdfmx.
+  hypertexnames = false,
+  colorlinks = true,
+  linkcolor = blue!45!black,
+  citecolor = green!35!black,
+  urlcolor = blue!55!black,
+  pdftitle = {\ProjectTitle},
+  pdfauthor = {\StudentName}
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{毕业设计开题报告示例}
+\fancyhead[R]{\thepage}
+\setlength{\parindent}{2em}
+\setlength{\parskip}{0.25em}
+\sisetup{
+  mode = match,
+  per-mode = symbol
+}
+\setlist[enumerate]{label=\arabic*.}
+
+\newcommand{\metadatarow}[2]{%
+  \makebox[4.5em][l]{#1} & #2\\[0.8em]%
+}

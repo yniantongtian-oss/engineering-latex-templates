@@ -2,22 +2,35 @@
 
 ## 推荐编译环境
 
-- **Overleaf**（最方便，适合新手）
-- TeX Live + VS Code
-- MiKTeX
+- Overleaf：上传整个模板目录，编译器选择 XeLaTeX
+- TeX Live 2023 或更新版本，配合 latexmk 与 biber
+- 本地编辑器可使用 VS Code 或 TeXstudio
+
+## 从模板生成一份新文档
+
+在仓库根目录：
+
+```bash
+python scripts/new_document.py --list
+python scripts/new_document.py --template lab-report --name my-lab
+cd my-lab
+make
+```
+
+封面字段集中在各模板的 `config/metadata.tex`。`--set key=value` 只改目录里声明过的命令。
 
 ## 基本修改步骤
 
-1. 打开主 .tex 文件
-2. 修改封面信息（学校、姓名、学号等）
-3. 根据需要调整章节结构
-4. 替换图片和表格
-5. 编译生成 PDF
+1. 用脚手架复制模板，或直接进入 `templates/<id>/`
+2. 修改 `config/metadata.tex` 中的题目、姓名和单位
+3. 替换 `main.tex` 里的章节、图和表
+4. 在 `references.bib` 中维护文献
+5. 运行 `make` 生成 PDF
 
 ## 常见问题
 
-- 中文乱码 → 检查编译引擎是否为 XeLaTeX
-- 图片无法显示 → 检查图片路径
-- 参考文献格式不对 → 使用正确的 .bib 文件
+- 中文乱码：确认编译引擎是 XeLaTeX
+- 参考文献没有更新：保留 latexmk，让它调用 biber，不要只跑一次 xelatex
+- 图片无法显示：使用模板目录内的相对路径
 
-更多问题欢迎在 Issues 中提出。
+更多说明见各模板 README 和 `docs/COMMON_ISSUES.md`。

@@ -1,0 +1,88 @@
+\input{config/fontfix.tex}
+\documentclass[12pt,fontset=fandol]{ctexart}
+
+\input{config/metadata}
+\input{config/style}
+
+\begin{document}
+
+\begin{titlepage}
+  \centering
+  \vspace*{1.2cm}
+  {\zihao{2}\bfseries \SchoolName{}本科毕业设计开题报告\par}
+  \vspace{0.4cm}
+  {\large 非官方通用骨架\par}
+  \vspace{1.8cm}
+  {\zihao{3}\bfseries \ProjectTitle\par}
+  \vspace{1.6cm}
+  \renewcommand{\arraystretch}{1.12}
+  \begin{tabular}{@{}rl@{}}
+    \metadatarow{学院}{\CollegeName}
+    \metadatarow{专业}{\MajorName}
+    \metadatarow{学生}{\StudentName}
+    \metadatarow{学号}{\StudentID}
+    \metadatarow{导师}{\SupervisorName}
+    \metadatarow{日期}{\ProposalDate}
+  \end{tabular}
+  \vfill
+  {\small 正式开题前，以所在学校当年公布的表格和页数要求为准。\par}
+\end{titlepage}
+
+\section{课题背景}
+低压实验平台上的能量回馈变流器把测试负载消耗的能量送回直流母线，从而降低热负荷。本课题只讨论隔离低压工况下的采样、闭环和故障保护，不把示例参数写成已经完成的产品指标。功率级建模采用平均开关模型\cite{erickson2020fpe}。
+
+\section{文献与现状}
+现有方案可以按功率拓扑、数字控制器和保护链路分类。参考手册给出了定时器、ADC 和通信外设的约束\cite{stm32f103rm}。开题阶段应指出尚未验证的动态性能、效率和可复现性，而不是罗列与课题无关的背景。文献库用 BibLaTeX 维护，便于后续论文沿用同一份数据\cite{lamport1994latex}。
+
+\section{研究目标}
+\begin{enumerate}
+  \item 把题目要求写成可测量指标，并规定额定、极限和故障工况；
+  \item 完成采样标定、离散电流环和抗积分饱和；
+  \item 使硬件过流和急停不依赖软件；
+  \item 保留固件版本、原始波形和生成报告的步骤。
+\end{enumerate}
+
+\section{技术路线}
+图~\ref{fig:route} 是计划中的工作顺序，不是已完成系统的测试结论。
+
+\begin{figure}[htbp]
+  \centering
+  \begin{tikzpicture}[
+      >=Stealth,
+      stage/.style={draw, rounded corners, align=center, minimum width=2.5cm, minimum height=0.9cm}
+    ]
+    \node[stage] (spec) {指标与边界};
+    \node[stage, right=1.1cm of spec] (model) {模型与仿真};
+    \node[stage, right=1.1cm of model] (fw) {固件与保护};
+    \node[stage, right=1.1cm of fw] (test) {低压实验};
+    \draw[->] (spec) -- (model);
+    \draw[->] (model) -- (fw);
+    \draw[->] (fw) -- (test);
+  \end{tikzpicture}
+  \caption{计划中的技术路线}\label{fig:route}
+\end{figure}
+
+\section{进度安排}
+\begin{table}[htbp]
+  \centering
+  \caption{示例进度，提交前按实际学期修改}\label{tab:schedule}
+  \begin{tabular}{lll}
+    \toprule
+    阶段 & 示例时间 & 产出 \\
+    \midrule
+    文献与指标 & 第 1--2 周 & 指标表、文献笔记 \\
+    方案与仿真 & 第 3--6 周 & 模型、器件应力估计 \\
+    固件与联调 & 第 7--12 周 & 状态机、保护测试记录 \\
+    论文与答辩 & 第 13--16 周 & 论文、数据归档、演示 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+表~\ref{tab:schedule} 中的周次是占位。若学校要求甘特图或指导教师签字栏，应把该表换成官方栏目，而不是在本模板上声称已经符合该校格式。
+
+\section{预期结果与风险}
+预期交付包括需求说明、可编译的控制程序、低压实验记录和毕业论文草稿。主要风险是功率硬件延期、采样噪声超预期，以及官方格式在答辩前改版。开题报告不提前写入未测得的效率或精度。
+
+\printbibliography[heading=bibintoc]
+
+\end{document}
